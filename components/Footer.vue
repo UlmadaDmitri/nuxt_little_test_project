@@ -23,7 +23,7 @@ export default {
       </li>
     </ul>
   </footer>-->
-  <footer class="text-center lg:text-left bg-gray-100 text-gray-600 mt-4 lg:mt-0 lg:absolute lg:bottom-0 lg:left-0">
+  <footer class="text-center lg:text-left bg-gray-100 text-gray-600 mt-4 lg:mt-0 lg:relative lg:bottom-0 lg:left-0">
     <div class="flex justify-center items-center lg:justify-between p-6 border-b border-gray-300">
       <div class="mr-12 hidden lg:block">
         <span>Get connected with me on social networks:</span>
