@@ -59,11 +59,10 @@
       </div>
     </section>
   </div>
-  <!-- Link for sections: https://flowbite.com/blocks/marketing/hero/ -->
 </template>
 
-<script>
+<!--<script>
 export default {
   name: 'IndexPage'
 }
-</script>
+</script>-->
