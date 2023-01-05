@@ -6,12 +6,13 @@
           <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             Sign in to your account
           </h1>
-          <form class="space-y-4 md:space-y-6" action="#">
+          <form class="space-y-4 md:space-y-6" action="#" @submit.stop.prevent="submit()">
             <div>
               <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 Your email
               </label>
               <input
+                v-model="email"
                 type="email"
                 name="email"
                 id="email"
@@ -28,6 +29,7 @@
                 Password
               </label>
               <input
+                v-model="password"
                 type="password"
                 name="password"
                 id="password"
@@ -39,9 +41,23 @@
                 required=""
               >
             </div>
-            <button type="submit" class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+            <button
+              type="submit"
+              class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none
+                focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600
+                dark:hover:bg-primary-700 dark:focus:ring-primary-800
+              ">
+                Sign in
+              </button>
           </form>
         </div>
+      </div>
+      <div
+        v-if="errorMessage"
+        class="p-4 my-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-gray-800 dark:text-red-400"
+        role="alert"
+      >
+        <span class="font-medium">Alert!</span> {{ errorMessage }}
       </div>
     </div>
   </section>
@@ -49,6 +65,25 @@
 
 <script>
 export default {
-  name: "login"
+  name: "login",
+
+  layout: "void",
+
+  data: () => ({
+    email: "project@test.nuxt",
+    password: "123456",
+    errorMessage: "",
+  }),
+
+  methods: {
+    submit() {
+      if (this.email === "project@test.nuxt" && this.password === "123456") {
+        this.$store.dispatch("auth/login");
+        this.$router.push("/");
+      } else {
+        this.errorMessage = "Invalid credentials. Please, enter the correct email and password";
+      }
+    }
+  }
 }
 </script>

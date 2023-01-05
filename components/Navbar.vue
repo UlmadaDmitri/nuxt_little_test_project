@@ -1,6 +1,18 @@
 <script>
 export default {
-  name: "Navbar"
+  name: "Navbar",
+
+  computed: {
+    hasToken() {
+      return this.$store.getters["auth/hasToken"];
+    }
+  },
+
+  methods: {
+    logout() {
+      this.$store.dispatch("auth/logout");
+    }
+  }
 }
 </script>
 
@@ -17,7 +29,21 @@ export default {
             <img src="@/assets/github-logo.png" alt="github" class="h-6 w-6 mr-1"/>
             <span class="text-gray-500 hover:underline">Code</span>
           </a>
-          <a href="#" class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline">Log out</a>
+          <NuxtLink
+            v-if="!hasToken"
+            to="/login"
+            class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline"
+          >
+            Log in
+          </NuxtLink>
+          <a
+            v-else
+            href="#"
+            class="text-sm font-medium text-blue-600 dark:text-blue-500 hover:underline"
+            @click.prevent="logout()"
+          >
+            Log out
+          </a>
         </div>
       </div>
     </nav>
