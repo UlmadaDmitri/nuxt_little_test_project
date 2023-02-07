@@ -3,7 +3,7 @@ export default {
   name: "Goods",
 
   // TODO: Uncomment on release
-  middleware: ["auth"],
+  // middleware: ["auth"],
 
   /*async asyncData({$axios}) {
     const response = await $axios.get("https://61ea7b5d7bc0550017bc677c.mockapi.io/api/v1/goods");
