@@ -96,7 +96,8 @@ export default {
           </h3>
           <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">February, 2023</time>
           <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-            The Middleware feature has been added and implemented for the product page. Developed a database using the mockAPI service
+            The Middleware feature has been added and implemented for the product page. Developed a database using the mockAPI service.
+            Added goods table, deletion method and redirection to the individual product by its id.
           </p>
         </li>
         <li class="mb-10 ml-6">
