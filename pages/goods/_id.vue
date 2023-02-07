@@ -2,9 +2,14 @@
 export default {
   name: "EditGood",
 
-  middleware: ["auth"],
+  // middleware: ["auth"],
 
   validate({params}) {
+    /*if (!(/^\d+$/.test(params.id))) {
+      throw new Error("Not valid params");
+    }
+
+    return true;*/
     return /^\d+$/.test(params.id);
   },
 
