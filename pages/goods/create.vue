@@ -4,7 +4,21 @@ export default {
 
   // middleware: ["auth"],
 
+  data: () => ({
+    model: {},
+    error: false
+  }),
+
   methods: {
+    async submit() {
+      try {
+        await this.$axios.post("https://61ea7b5d7bc0550017bc677c.mockapi.io/api/v1/goods", this.model);
+        await this.$router.push("/goods");
+      } catch (e) {
+        throw new Error(e);
+      }
+      // console.log(this.model);
+    },
     goBack() {
       this.$router.push("/goods");
     }
@@ -25,6 +39,7 @@ export default {
             Product Name
           </label>
           <input
+            v-model="model.name"
             type="text"
             id="name"
             :class=" error ?
@@ -54,6 +69,7 @@ export default {
           <input
             type="text"
             id="color"
+            v-model="model.color"
             :class=" error ?
               `bg-red-50 border border-red-500 text-red-900 text-sm rounded-lg
               focus:ring-red-500 focus:border-red-500 block w-full p-2.5
@@ -82,6 +98,7 @@ export default {
             type="number"
             id="price"
             step="0.5"
+            v-model="model.price"
             :class=" error ?
               `bg-red-50 border border-red-500 text-red-900 text-sm rounded-lg
               focus:ring-red-500 focus:border-red-500 block w-full p-2.5
@@ -107,13 +124,14 @@ export default {
           </label>
           <select
             id="status"
+            v-model="model.status"
             class="
               bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
               dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
             "
           >
-            <option :value="true" selected>Available</option>
+            <option :value="true">Available</option>
             <option :value="false">Unavailable</option>
           </select>
         </div>
@@ -125,6 +143,7 @@ export default {
               font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mr-4 text-center dark:bg-blue-600
               dark:hover:bg-blue-700 dark:focus:ring-blue-800
             "
+            @click.stop.prevent="submit()"
           >
             Submit
           </button>
