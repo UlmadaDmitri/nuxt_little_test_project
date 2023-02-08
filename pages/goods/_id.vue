@@ -14,13 +14,37 @@ export default {
   },
 
   async asyncData({$axios, params}) {
-    const response = await $axios.get(`https://61ea7b5d7bc0550017bc677c.mockapi.io/api/v1/goods/${params.id}`);
-    const good = response.data;
+    try {
+      const response = await $axios.get(`https://61ea7b5d7bc0550017bc677c.mockapi.io/api/v1/goods/${params.id}`);
+      const good = response.data;
 
-    return {good};
+      return {good};
+    } catch (e) {
+      throw new Error(e);
+    }
+  },
+
+  data: () => ({
+    model: {},
+    error: false
+  }),
+
+  mounted() {
+    this.model = this.good;
   },
 
   methods: {
+    async submit() {
+      try {
+        await this.$axios.put(
+          `https://61ea7b5d7bc0550017bc677c.mockapi.io/api/v1/goods/${this.$route.params.id}`,
+          this.model
+        );
+        await this.$router.push("/goods");
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
     goBack() {
       this.$router.push("/goods");
     }
@@ -43,6 +67,7 @@ export default {
           <input
             type="text"
             id="name"
+            v-model="model.name"
             :class=" error ?
               `bg-red-50 border border-red-500 text-red-900 text-sm rounded-lg
               focus:ring-red-500 focus:border-red-500 block w-full p-2.5
@@ -70,6 +95,7 @@ export default {
           <input
             type="text"
             id="color"
+            v-model="model.color"
             :class=" error ?
               `bg-red-50 border border-red-500 text-red-900 text-sm rounded-lg
               focus:ring-red-500 focus:border-red-500 block w-full p-2.5
@@ -97,6 +123,7 @@ export default {
           <input
             type="number"
             id="price"
+            v-model="model.price"
             step="0.5"
             :class=" error ?
               `bg-red-50 border border-red-500 text-red-900 text-sm rounded-lg
@@ -123,6 +150,7 @@ export default {
           </label>
           <select
             id="status"
+            v-model="model.status"
             class="
               bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
               focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
@@ -141,6 +169,7 @@ export default {
               font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mr-4 text-center dark:bg-blue-600
               dark:hover:bg-blue-700 dark:focus:ring-blue-800
             "
+            @click.stop.prevent="submit()"
           >
             Submit
           </button>
