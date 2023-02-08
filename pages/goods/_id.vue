@@ -40,6 +40,7 @@ export default {
           `https://61ea7b5d7bc0550017bc677c.mockapi.io/api/v1/goods/${this.$route.params.id}`,
           this.model
         );
+        await this.$store.dispatch("goods/fetch");
         await this.$router.push("/goods");
       } catch (e) {
         throw new Error(e);
