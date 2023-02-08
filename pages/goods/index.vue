@@ -30,6 +30,9 @@ export default {
   },
 
   methods: {
+    createGood() {
+      this.$router.push(`/goods/create`);
+    },
     editGood(id) {
       this.$router.push(`/goods/${id}`);
     },
@@ -45,6 +48,24 @@ export default {
 <template>
   <div class="mt-10 mx-10">
     <div class="py-4 px-2 mx-auto max-w-screen-xl text-center lg:py-8 lg:px-6">
+      <div class="text-right">
+        <button
+          type="button"
+          class="
+            text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg
+            text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none
+            dark:focus:ring-blue-800
+          "
+          @click="createGood()"
+        >
+          <span
+            class="material-icons flex justify-center"
+          >
+            add
+          </span>
+          <span>Add Good</span>
+        </button>
+      </div>
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
