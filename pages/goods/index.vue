@@ -109,8 +109,8 @@ export default {
               {{ good.price }}
             </td>
             <td class="px-6 py-4">
-              <span v-if="good.status">Available</span>
-              <span v-else>Unavailable</span>
+              <span v-if="good.status === 'false' || !good.status">Unavailable</span>
+              <span v-else>Available</span>
             </td>
             <td class="px-6 py-4">
               <span
