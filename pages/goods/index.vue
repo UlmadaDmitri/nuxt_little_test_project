@@ -1,9 +1,8 @@
 <script>
 export default {
   name: "Goods",
-
-  // TODO: Uncomment on release
-  // middleware: ["auth"],
+  
+  middleware: ["auth"],
 
   /*async asyncData({$axios}) {
     const response = await $axios.get("https://61ea7b5d7bc0550017bc677c.mockapi.io/api/v1/goods");
@@ -39,7 +38,6 @@ export default {
     async removeGood(id) {
       await this.$axios.delete(`https://61ea7b5d7bc0550017bc677c.mockapi.io/api/v1/goods/${id}`);
       await this.$store.dispatch("goods/fetch");
-      // await this.asyncData();
     }
   }
 }

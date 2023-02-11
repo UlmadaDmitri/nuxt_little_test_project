@@ -2,7 +2,7 @@
 export default {
   name: "EditGood",
 
-  // middleware: ["auth"],
+  middleware: ["auth"],
 
   data: () => ({
     model: {},
@@ -63,11 +63,9 @@ export default {
           await this.$store.dispatch("goods/fetch");
           await this.$router.push("/goods");
         }
-
       } catch (e) {
         throw new Error(e);
       }
-      // console.log(this.model);
     },
     goBack() {
       this.$router.push("/goods");
