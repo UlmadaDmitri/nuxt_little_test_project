@@ -2,7 +2,7 @@
 export default {
   name: "EditGood",
 
-  // middleware: ["auth"],
+  middleware: ["auth"],
 
   validate({params}) {
     /*if (!(/^\d+$/.test(params.id))) {
@@ -26,22 +26,70 @@ export default {
 
   data: () => ({
     model: {},
-    error: false
+    error: {
+      name: false,
+      color: false,
+      price: false,
+      status: false
+    }
   }),
 
   mounted() {
     this.model = this.good;
   },
 
+  computed: {
+    isValidName() {
+      return !!this.model.name && this.model.name.length >= 3;
+    },
+    isValidColor() {
+      return !!this.model.color && this.model.color.length >= 3;
+    },
+    isValidPrice() {
+      return !!this.model.price && /^[0-9]|(".")/.test(this.model.price);
+    },
+    isValidStatus() {
+      return !!this.model.status;
+    }
+  },
+
   methods: {
+    validateFields() {
+      if (!this.isValidName) {
+        this.error.name = true;
+      }
+
+      if (!this.isValidColor) {
+        this.error.color = true;
+      }
+
+      if (!this.isValidPrice) {
+        this.error.price = true;
+      }
+
+      if (!this.isValidStatus) {
+        this.error.status = true;
+      }
+
+      return this.isValidName && this.isValidColor && this.isValidPrice && this.isValidStatus;
+    },
+    resetValidation() {
+      this.error.name = false;
+      this.error.color = false;
+      this.error.price = false;
+      this.error.status = false;
+    },
     async submit() {
+      this.resetValidation();
       try {
-        await this.$axios.put(
-          `https://61ea7b5d7bc0550017bc677c.mockapi.io/api/v1/goods/${this.$route.params.id}`,
-          this.model
-        );
-        await this.$store.dispatch("goods/fetch");
-        await this.$router.push("/goods");
+        if (this.validateFields()) {
+          await this.$axios.put(
+            `https://61ea7b5d7bc0550017bc677c.mockapi.io/api/v1/goods/${this.$route.params.id}`,
+            this.model
+          );
+          await this.$store.dispatch("goods/fetch");
+          await this.$router.push("/goods");
+        }
       } catch (e) {
         throw new Error(e);
       }
@@ -61,15 +109,15 @@ export default {
           <label
             for="name"
             class="block mb-2 text-sm font-medium"
-            :class="error ? 'text-red-700 dark:text-red-500' : 'text-gray-900 dark:text-white'"
+            :class="error.name ? 'text-red-700 dark:text-red-500' : 'text-gray-900 dark:text-white'"
           >
             Product Name
           </label>
           <input
+            v-model="model.name"
             type="text"
             id="name"
-            v-model="model.name"
-            :class=" error ?
+            :class=" error.name ?
               `bg-red-50 border border-red-500 text-red-900 text-sm rounded-lg
               focus:ring-red-500 focus:border-red-500 block w-full p-2.5
               dark:bg-red-100 dark:border-red-400` :
@@ -81,7 +129,7 @@ export default {
             placeholder="Product Name"
             required
           >
-          <p v-if="error" class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <p v-if="error.name" class="mt-2 text-sm text-red-600 dark:text-red-500">
             <span class="font-medium">Oops!</span> Product name field is required and should have at least 3 letters
           </p>
         </div>
@@ -89,7 +137,7 @@ export default {
           <label
             for="color"
             class="block mb-2 text-sm font-medium"
-            :class="error ? 'text-red-700 dark:text-red-500' : 'text-gray-900 dark:text-white'"
+            :class="error.color ? 'text-red-700 dark:text-red-500' : 'text-gray-900 dark:text-white'"
           >
             Product Color
           </label>
@@ -97,7 +145,7 @@ export default {
             type="text"
             id="color"
             v-model="model.color"
-            :class=" error ?
+            :class=" error.color ?
               `bg-red-50 border border-red-500 text-red-900 text-sm rounded-lg
               focus:ring-red-500 focus:border-red-500 block w-full p-2.5
               dark:bg-red-100 dark:border-red-400` :
@@ -109,7 +157,7 @@ export default {
             placeholder="Product color"
             required
           >
-          <p v-if="error" class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <p v-if="error.color" class="mt-2 text-sm text-red-600 dark:text-red-500">
             <span class="font-medium">Oops!</span> Product color field is required and should have at least 3 letters
           </p>
         </div>
@@ -117,16 +165,16 @@ export default {
           <label
             for="name"
             class="block mb-2 text-sm font-medium"
-            :class="error ? 'text-red-700 dark:text-red-500' : 'text-gray-900 dark:text-white'"
+            :class="error.price ? 'text-red-700 dark:text-red-500' : 'text-gray-900 dark:text-white'"
           >
             Product Price
           </label>
           <input
             type="number"
             id="price"
-            v-model="model.price"
             step="0.5"
-            :class=" error ?
+            v-model="model.price"
+            :class=" error.price ?
               `bg-red-50 border border-red-500 text-red-900 text-sm rounded-lg
               focus:ring-red-500 focus:border-red-500 block w-full p-2.5
               dark:bg-red-100 dark:border-red-400` :
@@ -138,29 +186,37 @@ export default {
             placeholder="Product Price"
             required
           >
-          <p v-if="error" class="mt-2 text-sm text-red-600 dark:text-red-500">
+          <p v-if="error.price" class="mt-2 text-sm text-red-600 dark:text-red-500">
             <span class="font-medium">Oops!</span> Product price field is required and should consists only digits
           </p>
         </div>
         <div class="mb-6">
           <label
             for="status"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            class="block mb-2 text-sm font-medium"
+            :class="error.status ? 'text-red-700 dark:text-red-500' : 'text-gray-900 dark:text-white'"
           >
             Product Status
           </label>
           <select
             id="status"
             v-model="model.status"
-            class="
-              bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-              focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
-              dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+            :class=" error.status ?
+              `bg-red-50 border border-red-500 text-red-900 text-sm rounded-lg
+              focus:ring-red-500 focus:border-red-500 block w-full p-2.5
+              dark:bg-red-100 dark:border-red-400` :
+              `bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+              focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5
+              dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+              dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`
             "
           >
-            <option :value="true" selected>Available</option>
-            <option :value="false">Unavailable</option>
+            <option :value="'true'">Available</option>
+            <option :value="'false'">Unavailable</option>
           </select>
+          <p v-if="error.status" class="mt-2 text-sm text-red-600 dark:text-red-500">
+            <span class="font-medium">Oops!</span> Product status should be selected.
+          </p>
         </div>
         <div>
           <button
