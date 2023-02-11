@@ -1,4 +1,7 @@
-# little_test_project
+# NuxtJS Project (Thesis)
+
+## Link for app
+- https://nuxtjs-thesis.web.app/
 
 ## Build Setup
 
