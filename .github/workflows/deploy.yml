@@ -31,6 +31,10 @@ jobs:
          npm run build
          pwd
          ls -la
+         
+      - name: Start the Nuxt.js application
+        run: |
+         npm start
           
       - name: Add ssh key
         run: | 
