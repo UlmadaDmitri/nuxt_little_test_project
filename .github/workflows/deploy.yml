@@ -31,10 +31,6 @@ jobs:
          npm run build
          pwd
          ls -la
-         
-      - name: Start the Nuxt.js application
-        run: |
-         npm start
           
       - name: Add ssh key
         run: | 
@@ -44,7 +40,6 @@ jobs:
           echo "${{ secrets.SSH_KEY_CONNECTION }}" > $HOME/.ssh/key
           chmod 600 $HOME/.ssh/key
           pwd
-
       - name: Update host content   
         shell: bash
         env:
