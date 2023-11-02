@@ -83,7 +83,7 @@ export default {
           </h3>
           <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">October 19th, 2023</time>
           <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-            Project was deployed on test/demo server to check if it runs properly
+            Project was deployed on test/demo server to check if it runs properly ASDASDSADSADASDASD
           </p>
         </li>
         <li class="mb-10 ml-6">
