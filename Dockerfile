@@ -1,6 +1,6 @@
 FROM nginx:latest
 
-COPY DRIGA /etc/nginx/conf.d/default.conf
-COPY ./dist .
+RUN mkdir -p /home/powerit/DRIGA/dist
+COPY ./dist /home/powerit/DRIGA/dist
 
 EXPOSE 80
