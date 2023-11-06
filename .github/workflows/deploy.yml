@@ -36,8 +36,8 @@ jobs:
          ls -la
          # Сборка образа и отправка его в GitHub Container Registry
          docker build -t nginx_driga .
-         docker tag nginx_driga:latest ghcr.io/UlmadaDmitri/nginx_driga:latest
-         docker push ghcr.io/UlmadaDmitri/nginx_driga:latest
+         docker tag nginx_driga:latest ghcr.io/ulmadadmitri/nginx_driga:latest
+         docker push ghcr.io/ulmadadmitri/nginx_driga:latest
     
       - name: Add ssh key
         run: | 
