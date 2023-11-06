@@ -28,6 +28,7 @@ jobs:
 
       - name: Build npx
         run: |
+         pwd
          npx nuxt generate
          
       - name: Add ssh key
