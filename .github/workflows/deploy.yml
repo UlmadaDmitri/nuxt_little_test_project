@@ -33,6 +33,7 @@ jobs:
       - name: Build
         run: |
          pwd
+         pwd
          ls -la
          docker build -t nginx_driga .
          docker tag nginx_driga:latest ghcr.io/ulmadadmitri/nginx_driga:latest
