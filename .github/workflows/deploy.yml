@@ -35,9 +35,9 @@ jobs:
          pwd
          pwd
          ls -la
-         docker build -t nginx_driga .
-         docker tag nginx_driga:latest ghcr.io/ulmadadmitri/nginx_driga:latest
-         docker push ghcr.io/ulmadadmitri/nginx_driga:latest
+         docker build -t nginx_ulmada .
+         docker tag nginx_ulmada:latest ghcr.io/ulmadadmitri/nginx_ulmada:latest
+         docker push ghcr.io/ulmadadmitri/nginx_ulmada:latest
     
       - name: Add ssh key
         run: | 
@@ -55,4 +55,4 @@ jobs:
           DIST: ${{ vars.dist }}
         run: |
           rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avz ./*  powerit@206.81.27.146:/home/powerit/nuxt_little_test_project
-          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "docker run -d -p 80:80 ghcr.io/ulmadadmitri/nginx_driga:latest"
+          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "docker run -d -p 80:80 ghcr.io/ulmadadmitri/nginx_ulmada:latest"
