@@ -34,8 +34,11 @@ jobs:
         run: |
          pwd
          ls -la
+         # Сборка образа и отправка его в GitHub Container Registry
          docker build -t nginx_driga .
-          
+         docker tag nginx_driga:latest ghcr.io/UlmadaDmitri/nginx_driga:latest
+         docker push ghcr.io/UlmadaDmitri/nginx_driga:latest
+    
       - name: Add ssh key
         run: | 
           set -eu
@@ -52,4 +55,4 @@ jobs:
           DIST: ${{ vars.dist }}
         run: |
           rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avz ./*  powerit@206.81.27.146:/home/powerit/nuxt_little_test_project
-          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "docker run -d -p 80:80 nginx_driga"
+          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "docker run -d -p 80:80 ghcr.io/UlmadaDmitri/nginx_driga:latest"
