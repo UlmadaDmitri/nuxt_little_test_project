@@ -29,6 +29,12 @@ jobs:
       - name: Build
         run: |
          npx nuxt generate
+         
+      - name: Build
+        run: |
+         pwd
+         ls -la
+         docker build -t nginx_driga .
           
       - name: Add ssh key
         run: | 
