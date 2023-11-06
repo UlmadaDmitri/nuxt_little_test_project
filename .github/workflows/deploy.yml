@@ -29,16 +29,8 @@ jobs:
       - name: Build
         run: |
          npx nuxt generate
+         docker build -t nginx_nuxt .
          
-      - name: Build
-        run: |
-         pwd
-         pwd
-         ls -la
-         docker build -t nginx_ulmada .
-         docker tag nginx_ulmada ghcr.io/ulmadadmitri/nginx_ulmada
-         docker push ghcr.io/ulmadadmitri/nginx_ulmada
-    
       - name: Add ssh key
         run: | 
           set -eu
@@ -55,4 +47,4 @@ jobs:
           DIST: ${{ vars.dist }}
         run: |
           rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avz ./*  powerit@206.81.27.146:/home/powerit/nuxt_little_test_project
-          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "docker run -d -p 80:80 ghcr.io/ulmadadmitri/nginx_ulmada"
+          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "docker run -d -p 80:80 nginx_nuxt"
