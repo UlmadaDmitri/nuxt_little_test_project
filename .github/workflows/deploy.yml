@@ -29,7 +29,7 @@ jobs:
       - name: Build
         run: |
          npx nuxt generate
-         docker build -t nginx_driga
+         docker build -t nginx_driga /home/runner/work/nuxt_little_test_project/nuxt_little_test_project
          pwd
          ls -la
           
