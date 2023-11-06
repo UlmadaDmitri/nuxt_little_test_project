@@ -55,4 +55,4 @@ jobs:
           DIST: ${{ vars.dist }}
         run: |
           rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avz ./*  powerit@206.81.27.146:/home/powerit/nuxt_little_test_project
-          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "docker run -d -p 80:80 ghcr.io/UlmadaDmitri/nginx_driga:latest"
+          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "docker run -d -p 80:80 ghcr.io/ulmadadmitri/nginx_driga:latest"
