@@ -28,17 +28,14 @@ jobs:
 
       - name: Build npx
         run: |
-         pwd
          npx nuxt generate
          
       - name: Add ssh key
         run: | 
           set -eu
           mkdir "$HOME/.ssh"
-          ls -la
           echo "${{ secrets.SSH_KEY_CONNECTION }}" > $HOME/.ssh/key
           chmod 600 $HOME/.ssh/key
-          pwd
       - name: Update host content   
         shell: bash
         env:
@@ -47,4 +44,4 @@ jobs:
           DIST: ${{ vars.dist }}
         run: |
           rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avz ./*  powerit@206.81.27.146:/home/powerit/nuxt_little_test_project
-          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "docker run -d -p 80:80 nginx_nuxt"
+          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "docker stop nuxt && docker rm nuxt && docker run --name nuxt -d -p 80:80 nginx_nuxt"
