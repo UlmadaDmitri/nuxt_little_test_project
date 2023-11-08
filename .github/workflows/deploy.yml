@@ -29,7 +29,7 @@ jobs:
       - name: Build npx
         run: |
          npx nuxt generate
-         docker build -t nginx_nuxt
+         docker build -t nginx_nuxt .
          
       - name: Add ssh key
         run: | 
