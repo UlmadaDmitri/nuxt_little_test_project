@@ -1,7 +1,7 @@
 # NuxtJS Project (Thesis)
 
 ## Link for app
-- https://nuxtjs-thesis.web.app/
+- 206.81.27.146
 
 ## Build Setup
 
