@@ -83,7 +83,7 @@ export default {
           </h3>
           <time class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">November 06th, 2023</time>
           <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-            First tries of project DevOps engineer to setup docker for this project. Small updates were made
+            First tries of project DevOps engineer to setup docker for this project. Small updates were made. Added second branch with docker-compose (Ulmada 10.11.2023 5:52)
           </p>
         </li>
         <li class="mb-10 ml-6">
