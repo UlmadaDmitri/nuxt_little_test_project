@@ -6,7 +6,7 @@ services:
   ports:
    - "8000:8000"
   volumes:
-   - ./my-client-docs:/my-client-docs
+   - ./dist
   networks:
    - web
 
