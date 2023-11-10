@@ -1,12 +1,16 @@
 version: '3.3'
 
 services:
-  ports:
-   - "80:80"
-  volumes:
-   - ./dist
-  networks:
-   - web
+  nuxt:
+    build:
+      context: .
+      dockerfile: ./path/to/your/Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./dist:/home/powerit/nuxt_little_test_project/dist
+    networks:
+      - web
 
 networks:
   web:
