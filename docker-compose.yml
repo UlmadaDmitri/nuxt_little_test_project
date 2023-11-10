@@ -1,8 +1,6 @@
 version: '3.3'
 
 services:
- nuxt:
-  npx nuxt generate: .
   ports:
    - "80:80"
   volumes:
