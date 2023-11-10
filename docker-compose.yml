@@ -4,7 +4,7 @@ services:
   nuxt:
     build:
       context: .
-      dockerfile: .Dockerfile
+      dockerfile: /home/powerit/nuxt_little_test_project/Dockerfile
     ports:
       - "80:80"
     volumes:
