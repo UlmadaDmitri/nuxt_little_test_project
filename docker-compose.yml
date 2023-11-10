@@ -4,7 +4,7 @@ services:
  nuxt:
   npx nuxt generate: .
   ports:
-   - "8000:8000"
+   - "80:80"
   volumes:
    - ./dist
   networks:
