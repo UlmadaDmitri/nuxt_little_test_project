@@ -30,7 +30,6 @@ jobs:
         run: |
          npx nuxt generate
          pwd
-         pwd
          
       - name: Add ssh key
         run: | 
