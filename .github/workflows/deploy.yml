@@ -45,4 +45,4 @@ jobs:
           DIST: ${{ vars.dist }}
         run: |
           rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avz ./*  powerit@206.81.27.146:/home/powerit/nuxt_little_test_project_compose
-          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "cd /home/powerit/nuxt_little_test_project_compose/ && docker-compose up -d --force-recreate"
+          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "cd /home/powerit/nuxt_little_test_project_compose && docker-compose up -d --force-recreate"
