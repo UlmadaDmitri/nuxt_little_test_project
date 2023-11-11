@@ -1,7 +1,7 @@
 server {
-    listen 80;
+    listen 81;
     server_name 206.81.27.146;
-    root /home/powerit/nuxt_little_test_project/dist;
+    root /home/powerit/nuxt_little_test_project_compose/dist;
 
     location / {
         try_files $uri $uri/ /index.html;
