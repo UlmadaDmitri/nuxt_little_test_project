@@ -4,32 +4,31 @@ on:
   push:
     branches:
       - master_compose
-
+      
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Check out
         uses: actions/checkout@v4
-
+        
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
           node-version: 16
-
+          
       - uses: actions/cache@v3
         id: cache
         with:
           path: node_modules
           key: ${{ runner.os }}-${{ hashFiles('package.json') }}
-
+          
       - name: Install dependencies
         run: npm install
-
+        
       - name: Build npx
         run: |
          npx nuxt generate
-         pwd
          
       - name: Add ssh key
         run: | 
@@ -37,12 +36,13 @@ jobs:
           mkdir "$HOME/.ssh"
           echo "${{ secrets.SSH_KEY_CONNECTION }}" > $HOME/.ssh/key
           chmod 600 $HOME/.ssh/key
+          
       - name: Update host content   
         shell: bash
         env:
           USER: ${{ vars.user }}
           HOST: ${{ vars.host }}
-          DIST: ${{ vars.dist }}
+          DIST2: ${{ vars.dist2 }}
         run: |
-          rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avz ./*  powerit@206.81.27.146:/home/powerit/nuxt_little_test_project_compose
-          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "cd /home/powerit/nuxt_little_test_project_compose && docker-compose up -d --force-recreate"
+          rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avz ./*  $USER@$HOST:$DIST2
+          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no $USER@$HOST "cd $DIST2 && docker-compose up -d --force-recreate"
