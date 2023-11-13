@@ -66,7 +66,7 @@ jobs:
         env:
           USER: ${{ vars.user }}
           HOST: ${{ vars.host }}
-          DIST: ${{ vars.dist3 }}
+          DIST3: ${{ vars.dist3 }}
         run: |
           rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" $USER@$HOST
           ssh -i $HOME/.ssh/deploy -o StrictHostKeyChecking=no $USER@$HOST "cd $DIST3 && docker-compose pull && docker-compose up -d"
