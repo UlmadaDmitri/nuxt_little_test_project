@@ -1,5 +1,5 @@
 server {
-    listen 81;
+    listen 82;
     server_name 206.81.27.146;
     root /home/powerit/nuxt_little_test_project_compose/dist;
 
