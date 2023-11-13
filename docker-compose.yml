@@ -4,11 +4,11 @@ services:
   nuxt:
     build:
       context: .
-      dockerfile: /home/powerit/nuxt_little_test_project_compose/Dockerfile
+      dockerfile: /home/poweritnuxt_little_test_project_compose_registry/Dockerfile
     ports:
-      - "81:81"
+      - "82:82"
     volumes:
-      - ./dist:/home/powerit/nuxt_little_test_project_compose/dist
+      - ./dist:/home/powerit/nuxt_little_test_project_compose_registry/dist
     networks:
       - web
 
