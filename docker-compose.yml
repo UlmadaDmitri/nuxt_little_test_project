@@ -1,15 +1,14 @@
 version: '3.3'
 
 services:
-  nuxt:
-    build:
-      context: .
-    ports:
-      - "82:82"
-    volumes:
-      - ./dist:/home/powerit/nuxt_little_test_project_compose_registry/dist
+  rust-mkdocs:
+    image: docker.pkg.github.com/ULmadaDmitri/nuxt_little_test_project_registry/ui:dev
+    ports: "82:82"
+    container_name: nuxt_registry
+    restart: unless-stopped
     networks:
       - web
+
 
 networks:
   web:
