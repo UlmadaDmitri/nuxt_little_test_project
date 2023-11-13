@@ -50,6 +50,7 @@ jobs:
 
       - name: Docker build
         run: |
+          echo ${{ secrets.admin_token }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           docker buildx build -t ghcr.io/ulmadadmitri/nuxt_little_test_project_registry:dev --push .
           docker push ghcr.io/docker.pkg.github.com/ulmadadmitri/nuxt_little_test_project_registry:dev
 
