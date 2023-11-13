@@ -4,7 +4,6 @@ services:
   nuxt:
     build:
       context: .
-      dockerfile: /home/poweritnuxt_little_test_project_compose_registry/Dockerfile
     ports:
       - "82:82"
     volumes:
