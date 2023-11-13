@@ -24,12 +24,12 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('package.json') }}
 
       - name: Install dependencies
-        run: npm install
+        run: |
+         npm install
 
       - name: Build npx
         run: |
          npx nuxt generate
-         pwd
          
       - name: Add ssh key
         run: | 
@@ -37,6 +37,7 @@ jobs:
           mkdir "$HOME/.ssh"
           echo "${{ secrets.SSH_KEY_CONNECTION }}" > $HOME/.ssh/key
           chmod 600 $HOME/.ssh/key
+          
       - name: Update host content   
         shell: bash
         env:
