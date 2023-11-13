@@ -47,8 +47,8 @@ jobs:
 
       - name: Docker build
         run: |
-          docker build -t ulmadadmitri/nuxt_little_test_project_registry:dev .
-          docker push ulmadadmitri/nuxt_little_test_project_registry:dev
+          docker buildx build -t ulmadadmitri/nuxt_little_test_project_registry:dev .
+          docker push docker.pkg.github.com/ulmadadmitri/nuxt_little_test_project_registry:dev
        
       - name: Build image and push to GitHub Packages
         uses: docker/build-push-action@v3
