@@ -55,7 +55,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: ./docker/dev/Dockerfile
+          file: Dockerfile
           tags: |
              docker.pkg.github.com/${{ env.REP_NAME }}/nuxt_registry
              docker.pkg.github.com/${{ env.REP_NAME }}/nuxt_registry:${{ env.COMMIT_SHORT }}
