@@ -60,7 +60,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           tags: |
-             docker.pkg.github.com/${{ env.REP_NAME }}:dev
+             docker.pkg.github.com/ulmadadmitri/nuxt_little_test_project_registry:dev
           push: ${{ github.ref == 'refs/heads/master_registry' }}
           
       - name: Update host content   
