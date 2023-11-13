@@ -17,11 +17,6 @@ jobs:
         with:
           node-version: 16
 
-      - name: Set environment variables
-        run: |
-           echo "REP_NAME=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-           echo "COMMIT_SHORT=${GITHUB_SHA::7}" >> $GITHUB_ENV 
-
       - uses: actions/cache@v3
         id: cache
         with:
@@ -34,7 +29,6 @@ jobs:
       - name: Build npx
         run: |
          npx nuxt generate
-         pwd
          pwd
          
       - name: Add ssh key
