@@ -51,11 +51,14 @@ jobs:
           username: ${{ secrets.admin_login }}
           password: ${{ secrets.admin_token }}
 
+      - name: Docker build
+        run: |
+          docker build -t nginx_registry:latest .
+          docker push ulmadadmitri/nuxt_little_test_project_registry
+       
       - name: Build image and push to GitHub Packages
         uses: docker/build-push-action@v3
         with:
-          context: .
-          file: Dockerfile
           tags: |
              docker.pkg.github.com/${{ env.REP_NAME }}/nuxt_registry:dev
              docker.pkg.github.com/${{ env.REP_NAME }}/nuxt_registry:${{ env.COMMIT_SHORT }}
