@@ -17,6 +17,11 @@ jobs:
         with:
           node-version: 16
 
+      - name: Set environment variables
+        run: |
+           echo "REP_NAME=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+           echo "COMMIT_SHORT=${GITHUB_SHA::7}" >> $GITHUB_ENV 
+
       - uses: actions/cache@v3
         id: cache
         with:
@@ -37,6 +42,24 @@ jobs:
           mkdir "$HOME/.ssh"
           echo "${{ secrets.SSH_KEY_CONNECTION }}" > $HOME/.ssh/key
           chmod 600 $HOME/.ssh/key
+
+      - name: Login to Github Packages
+        uses: docker/login-action@v2
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ secrets.admin_login }}
+          password: ${{ secrets.admin_token }}
+
+      - name: Build image and push to GitHub Packages
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./docker/dev/Dockerfile
+          tags: |
+             docker.pkg.github.com/${{ env.REP_NAME }}/ui:dev
+             docker.pkg.github.com/${{ env.REP_NAME }}/ui:${{ env.COMMIT_SHORT }}
+          push: ${{ github.ref == 'refs/heads/master' }}
+          
       - name: Update host content   
         shell: bash
         env:
@@ -44,5 +67,5 @@ jobs:
           HOST: ${{ vars.host }}
           DIST: ${{ vars.dist }}
         run: |
-          rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avz ./*  powerit@206.81.27.146:/home/powerit/nuxt_little_test_project_compose
-          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "cd /home/powerit/nuxt_little_test_project_compose && docker-compose up -d --force-recreate"
+          rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" powerit@206.81.27.146
+          ssh -i $HOME/.ssh/deploy -o StrictHostKeyChecking=no $USER@$HOST "cd $DIST && docker-compose pull && docker-compose up -d"
