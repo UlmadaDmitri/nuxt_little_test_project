@@ -48,13 +48,13 @@ jobs:
       - name: Docker build
         run: |
           docker buildx build -t ulmadadmitri/nuxt_little_test_project_registry:dev .
-          docker push docker.pkg.github.com/ulmadadmitri/nuxt_little_test_project_registry:dev
+          docker push docker.pkg.github.com/ulmadadmitri/nuxt_little_test_project_registry:dev .
        
       - name: Build image and push to GitHub Packages
         uses: docker/build-push-action@v3
         with:
           tags: |
-             docker.pkg.github.com/ulmadadmitri/nuxt_little_test_project_registry:dev
+             docker.pkg.github.com/ulmadadmitri/nuxt_little_test_project_registry:dev .
           push: ${{ github.ref == 'refs/heads/master_registry' }}
           
       - name: Update host content   
