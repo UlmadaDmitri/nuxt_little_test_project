@@ -68,4 +68,4 @@ jobs:
           HOST: ${{ vars.host }}
           DIST3: ${{ vars.dist3 }}
         run: |
-          ssh -i $HOME/.ssh/deploy -o StrictHostKeyChecking=no $USER@$HOST "cd $DIST3 && docker-compose pull && docker-compose up -d"
+          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no $USER@$HOST "cd $DIST3 && docker-compose pull && docker-compose up -d"
