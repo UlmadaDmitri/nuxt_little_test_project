@@ -52,7 +52,6 @@ jobs:
         run: |
           echo ${{ secrets.admin_token }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
           docker buildx build -t ghcr.io/ulmadadmitri/nuxt_little_test_project_registry:dev --push .
-          docker push ghcr.io/ulmadadmitri/nuxt_little_test_project_registry:dev
 
       - name: Build image and push to GitHub Packages
         uses: docker/build-push-action@v3
