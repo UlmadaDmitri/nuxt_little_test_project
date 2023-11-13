@@ -55,8 +55,8 @@ jobs:
           context: .
           file: ./docker/dev/Dockerfile
           tags: |
-             docker.pkg.github.com/${{ env.REP_NAME }}/ui:dev
-             docker.pkg.github.com/${{ env.REP_NAME }}/ui:${{ env.COMMIT_SHORT }}
+             docker.pkg.github.com/${{ env.REP_NAME }}/nuxt_registry
+             docker.pkg.github.com/${{ env.REP_NAME }}/nuxt_registry:${{ env.COMMIT_SHORT }}
           push: ${{ github.ref == 'refs/heads/master' }}
           
       - name: Update host content   
