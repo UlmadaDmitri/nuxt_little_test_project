@@ -52,14 +52,12 @@ jobs:
           password: ${{ secrets.admin_token }}
 
       - name: Build image and push to GitHub Packages
-        run: |
-         pwd
-          uses: docker/build-push-action@v3
-          with:
+        uses: docker/build-push-action@v3
+        with:
           context: .
           file: Dockerfile
           tags: |
-             docker.pkg.github.com/${{ env.REP_NAME }}/nuxt_registry
+             docker.pkg.github.com/${{ env.REP_NAME }}/nuxt_registry:dev
              docker.pkg.github.com/${{ env.REP_NAME }}/nuxt_registry:${{ env.COMMIT_SHORT }}
           push: ${{ github.ref == 'refs/heads/master' }}
           
