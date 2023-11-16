@@ -6,9 +6,4 @@ server {
     location / {
         try_files $uri $uri/ /index.html;
     }
-
-     location /about {
-        try_files $uri $uri/ /index.html;
-        proxy_pass http://206.81.27.146:80/about;
-    }
 }
