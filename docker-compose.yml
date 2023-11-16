@@ -7,6 +7,7 @@ services:
       dockerfile: /home/powerit/nuxt_little_test_project_compose/Dockerfile
     ports:
       - "127.0.0.1:82:80"
+    container_name: nuxt_compose
     volumes:
       - ./dist:/home/powerit/nuxt_little_test_project_compose/dist
     networks:
