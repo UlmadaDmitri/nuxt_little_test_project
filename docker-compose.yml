@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: /home/powerit/nuxt_little_test_project_compose/Dockerfile
     ports:
-      - "81:81"
+      - "81:80"
     volumes:
       - ./dist:/home/powerit/nuxt_little_test_project_compose/dist
     networks:
