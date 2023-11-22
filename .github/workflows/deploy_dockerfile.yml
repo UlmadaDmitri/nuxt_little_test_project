@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: "deploy_dockerfile"
 
 on:
   push:
@@ -24,30 +24,20 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('package.json') }}
 
       - name: Install dependencies
-        run: npm install
+        run: |
+         npm install
 
-      - name: Build
+      - name: Build npx
         run: |
          npx nuxt generate
          
-      - name: Build
-        run: |
-         pwd
-         pwd
-         ls -la
-         # Сборка образа и отправка его в GitHub Container Registry
-         docker build -t nginx_driga .
-         docker tag nginx_driga:latest ghcr.io/ulmadadmitri/nginx_driga:latest
-         docker push ghcr.io/ulmadadmitri/nginx_driga:latest
-    
       - name: Add ssh key
         run: | 
           set -eu
           mkdir "$HOME/.ssh"
-          ls -la
           echo "${{ secrets.SSH_KEY_CONNECTION }}" > $HOME/.ssh/key
           chmod 600 $HOME/.ssh/key
-          pwd
+          
       - name: Update host content   
         shell: bash
         env:
@@ -55,5 +45,5 @@ jobs:
           HOST: ${{ vars.host }}
           DIST: ${{ vars.dist }}
         run: |
-          rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avz ./*  powerit@206.81.27.146:/home/powerit/nuxt_little_test_project
-          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no powerit@206.81.27.146 "docker run -d -p 80:80 ghcr.io/ulmadadmitri/nginx_driga:latest"
+          rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avz ./*  $USER@$HOST:$DIST
+          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no $USER@$HOST "docker stop nuxt && docker rm nuxt && docker rmi nginx_nuxt && cd $DIST && docker build -t nginx_nuxt . && docker run --name nuxt -d -p 127.0.0.1:81:80 nginx_nuxt"
