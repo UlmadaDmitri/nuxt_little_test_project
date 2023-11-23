@@ -42,7 +42,7 @@ jobs:
 
       - name: Docker build
         run: |
-          echo ${{ secrets.admin_token }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          echo ${{ secrets.admin_token }} | docker login ghcr.io -u UlmadaDmitri --password-stdin
           docker buildx build -t ghcr.io/ulmadadmitri/nuxt_little_test_project_registry:dev --push .
 
       - name: Build image and push to GitHub Packages
