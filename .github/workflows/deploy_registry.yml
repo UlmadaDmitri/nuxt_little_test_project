@@ -1,0 +1,63 @@
+name: "deploy_registry.yml"
+
+on:
+  push:
+    branches:
+      - master_registry
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ hashFiles('package.json') }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build npx
+        run: |
+         npx nuxt generate
+         
+      - name: Add ssh key
+        run: | 
+          set -eu
+          mkdir "$HOME/.ssh"
+          echo "${{ secrets.SSH_KEY_CONNECTION }}" > $HOME/.ssh/key
+          chmod 600 $HOME/.ssh/key
+
+      - name: Docker build
+        run: |
+          echo ${{ secrets.admin_token }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker buildx build -t ghcr.io/ulmadadmitri/nuxt_little_test_project_registry:dev --push .
+
+      - name: Build image and push to GitHub Packages
+        uses: docker/build-push-action@v3
+        with:
+           context: .
+           push: ${{ github.ref == 'refs/heads/master_registry' }}
+           tags: |
+            ghcr.io/ulmadadmitri/nuxt_little_test_project_registry:dev
+       
+      - name: Update host content   
+        shell: bash
+        env:
+          USER: ${{ vars.user }}
+          HOST: ${{ vars.host }}
+          DIST3: ${{ vars.dist3 }}
+        run: |
+          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no $USER@$HOST "cd $DIST3 && docker-compose pull && docker-compose up -d"
