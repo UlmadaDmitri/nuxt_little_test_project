@@ -1,0 +1,49 @@
+name: "deploy_dockerfile"
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - uses: actions/cache@v3
+        id: cache
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ hashFiles('package.json') }}
+
+      - name: Install dependencies
+        run: |
+         npm install
+
+      - name: Build npx
+        run: |
+         npx nuxt generate
+         
+      - name: Add ssh key
+        run: | 
+          set -eu
+          mkdir "$HOME/.ssh"
+          echo "${{ secrets.SSH_KEY_CONNECTION }}" > $HOME/.ssh/key
+          chmod 600 $HOME/.ssh/key
+          
+      - name: Update host content   
+        shell: bash
+        env:
+          USER: ${{ vars.user }}
+          HOST: ${{ vars.host }}
+          DIST: ${{ vars.dist }}
+        run: |
+          rsync -e "ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no" -avz ./*  $USER@$HOST:$DIST
+          ssh -i $HOME/.ssh/key -o StrictHostKeyChecking=no $USER@$HOST "docker stop nuxt && docker rm nuxt && docker rmi nginx_nuxt && cd $DIST && docker build -t nginx_nuxt . && docker run --name nuxt -d -p 127.0.0.1:81:80 nginx_nuxt"
